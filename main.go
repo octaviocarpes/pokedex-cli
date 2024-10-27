@@ -10,7 +10,7 @@ import (
 )
 
 func requestUserInput() string {
-	fmt.Println("Pokedex CLI >")
+	fmt.Printf("\nPokedex CLI > ")
 	scanner := bufio.NewScanner(os.Stdin)
 	scanner.Scan()
 	err := scanner.Err()
@@ -29,16 +29,16 @@ func main() {
 	userInput = requestUserInput()
 
 	for userInput != "exit" {
-		switch userInput {
-		case "help":
-			cliCommands["help"].Callback()
+
+		command, ok := cliCommands[userInput]
+
+		if ok {
+			command.Callback()
 			userInput = requestUserInput()
-		case "exit":
-			fmt.Printf("exit: %v\n", cliCommands["exit"])
-			userInput = requestUserInput()
-		default:
-			fmt.Printf("exit: %v\n", cliCommands["exit"])
-			userInput = requestUserInput()
+		} else {
+			fmt.Println("Command not found - Exiting program")
+			fmt.Println("*Tip type help to list all commands")
+			os.Exit(1)
 		}
 	}
 }
