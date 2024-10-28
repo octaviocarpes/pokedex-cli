@@ -20,3 +20,9 @@ func RequestUserInput() string {
 
 	return scanner.Text()
 }
+
+func ClearConsole() {
+	for i := 0; i < 50; i++ {
+		fmt.Printf("\n")
+	}
+}
