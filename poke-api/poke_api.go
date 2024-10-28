@@ -1,6 +1,8 @@
 package poke_api
 
 import (
+	"strconv"
+
 	http_client "github.com/octaviocarpes/pokedex-cli/http-client"
 )
 
@@ -15,7 +17,9 @@ type ListLocationsResponse struct {
 }
 
 func GetLocations(offset int) (ListLocationsResponse, error) {
-	response, error := http_client.ExecuteGet[ListLocationsResponse]("/location")
+	stringValue := strconv.Itoa(offset)
+	search := "offset=" + stringValue
+	response, error := http_client.ExecuteGet[ListLocationsResponse]("/location?" + search)
 
 	if error != nil {
 		return response, error
