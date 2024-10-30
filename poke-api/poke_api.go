@@ -4,6 +4,7 @@ import (
 	"strconv"
 
 	http_client "github.com/octaviocarpes/pokedex-cli/http-client"
+	cache "github.com/octaviocarpes/pokedex-cli/poke-api/cache"
 )
 
 type ListLocationsResponse struct {
@@ -19,7 +20,15 @@ type ListLocationsResponse struct {
 func GetLocations(offset int) (ListLocationsResponse, error) {
 	stringValue := strconv.Itoa(offset)
 	search := "offset=" + stringValue
-	response, error := http_client.ExecuteGet[ListLocationsResponse]("/location?" + search)
+	url := "/location?" + search
+
+	cachedResponse := cache.Get(url)
+
+	if res, ok := cachedResponse.(ListLocationsResponse); ok {
+		return res, nil
+	}
+
+	response, error := http_client.ExecuteGet[ListLocationsResponse](url)
 
 	if error != nil {
 		return response, error
