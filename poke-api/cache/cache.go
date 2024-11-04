@@ -1,9 +1,8 @@
 package cache
 
 import (
-	"bytes"
-	"encoding/gob"
-	"log"
+	"fmt"
+	"maps"
 	"time"
 )
 
@@ -14,35 +13,49 @@ type cache struct {
 
 var memoryCache map[string]cache = make(map[string]cache)
 
-func Get(key string) any {
+func reapLoop(duration time.Duration) {
+	fmt.Println("\n\ncleaning cache...\n")
+
+	keys := maps.Keys(memoryCache)
+
+	for key := range keys {
+		cachedData := memoryCache[key]
+
+		if time.Now().After(cachedData.createdAt.Add(duration)) {
+			fmt.Printf("%v cache - removed\n", key)
+			delete(memoryCache, key)
+		}
+	}
+
+	fmt.Printf("\nPokedex CLI > ")
+}
+
+func NewCache(duration time.Duration) {
+	go func() {
+		ticker := time.NewTicker(duration)
+		defer ticker.Stop()
+		for {
+			select {
+			case <-ticker.C:
+				reapLoop(duration)
+			}
+		}
+	}()
+}
+
+func Get(key string) ([]byte, bool) {
 	cachedItem, ok := memoryCache[key]
 
 	if ok {
-		var cacheValue bytes.Buffer
-		decoder := gob.NewDecoder(&cacheValue)
-		error := decoder.Decode(&cachedItem.value)
-
-		if error != nil {
-			log.Fatal("Failed to decode cache value from byte slice")
-		}
-
-		return cacheValue
+		return cachedItem.value, true
 	}
 
-	return nil
+	return nil, false
 }
 
-func Set(key string, value any) {
-	var cacheValue bytes.Buffer
-	encoder := gob.NewEncoder(&cacheValue)
-	error := encoder.Encode(value)
-
-	if error != nil {
-		log.Fatal("Failed to encode cache value to byte slice")
-	}
-
+func Add(key string, value []byte) {
 	memoryCache[key] = cache{
-		value:     cacheValue.Bytes(),
+		value:     value,
 		createdAt: time.Now(),
 	}
 }
