@@ -11,10 +11,10 @@ type cache struct {
 	createdAt time.Time
 }
 
-var memoryCache map[string]cache = make(map[string]cache)
+var memoryCache map[string]cache
 
 func reapLoop(duration time.Duration) {
-	fmt.Println("\n\ncleaning cache...\n")
+	fmt.Println("\n\ncleaning cache...")
 
 	keys := maps.Keys(memoryCache)
 
@@ -28,19 +28,6 @@ func reapLoop(duration time.Duration) {
 	}
 
 	fmt.Printf("\nPokedex CLI > ")
-}
-
-func NewCache(duration time.Duration) {
-	go func() {
-		ticker := time.NewTicker(duration)
-		defer ticker.Stop()
-		for {
-			select {
-			case <-ticker.C:
-				reapLoop(duration)
-			}
-		}
-	}()
 }
 
 func Get(key string) ([]byte, bool) {
@@ -58,4 +45,18 @@ func Add(key string, value []byte) {
 		value:     value,
 		createdAt: time.Now(),
 	}
+}
+
+func NewCache(duration time.Duration) {
+	memoryCache = make(map[string]cache)
+	go func() {
+		ticker := time.NewTicker(duration)
+		defer ticker.Stop()
+		for {
+			select {
+			case <-ticker.C:
+				reapLoop(duration)
+			}
+		}
+	}()
 }
