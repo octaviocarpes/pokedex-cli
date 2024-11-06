@@ -11,20 +11,19 @@ import (
 )
 
 func main() {
-	cache.NewCache(10 * time.Second)
+	cache.NewCache(30 * time.Second)
 	cliCommands := commands.ListAllCommands()
-	var userInput string
-	userInput = utils.RequestUserInput()
+	userInput, args := utils.RequestUserInput()
 
 	for userInput != "exit" {
 
 		command, ok := cliCommands[userInput]
 
 		if ok {
-			command.Callback()
-			userInput = utils.RequestUserInput()
+			command.Callback(args)
+			userInput, args = utils.RequestUserInput()
 		} else {
-			fmt.Println("Command not found - Exiting program")
+			fmt.Printf("Command not found (%v) - Exiting program\n", userInput)
 			fmt.Println("*Tip type help to list all commands")
 			os.Exit(1)
 		}
