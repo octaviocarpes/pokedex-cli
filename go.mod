@@ -23,7 +23,7 @@ require (
 
 require github.com/octaviocarpes/pokedex-cli/poke-api v0.0.0 // indirect
 
-require github.com/octaviocarpes/pokedex-cli/poke-api/cache v0.0.0 // indirect
+require github.com/octaviocarpes/pokedex-cli/poke-api/cache v0.0.0
 
 require github.com/octaviocarpes/pokedex-cli/commands/map v0.0.0 // indirect
 
