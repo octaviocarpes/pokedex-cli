@@ -6,9 +6,10 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 )
 
-func RequestUserInput() string {
+func RequestUserInput() (string, []string) {
 	fmt.Printf("\nPokedex CLI > ")
 	scanner := bufio.NewScanner(os.Stdin)
 	scanner.Scan()
@@ -19,7 +20,9 @@ func RequestUserInput() string {
 		os.Exit(1)
 	}
 
-	return scanner.Text()
+	args := strings.Fields(scanner.Text())
+
+	return args[0], args[1:]
 }
 
 func ClearConsole() {
