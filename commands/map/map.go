@@ -50,7 +50,7 @@ func GetLocations() error {
 
 	loadLocations(0, false)
 
-	userInput := utils.RequestUserInput()
+	userInput, _ := utils.RequestUserInput()
 	for {
 		switch userInput {
 		case "menu":
@@ -60,7 +60,7 @@ func GetLocations() error {
 			os.Exit(0)
 		case "next":
 			navigateForward(&page, offset)
-			userInput = utils.RequestUserInput()
+			userInput, _ = utils.RequestUserInput()
 		case "back":
 			page--
 
@@ -68,17 +68,17 @@ func GetLocations() error {
 				page++
 				fmt.Printf("\n")
 				fmt.Println("Cannot go back before first page")
-				userInput = utils.RequestUserInput()
+				userInput, _ = utils.RequestUserInput()
 				break
 			}
 
 			loadLocations(page*offset, false)
-			userInput = utils.RequestUserInput()
+			userInput, _ = utils.RequestUserInput()
 		default:
 			fmt.Printf("\n")
 			fmt.Println("Unknown map mode command")
 			printMapMode()
-			userInput = utils.RequestUserInput()
+			userInput, _ = utils.RequestUserInput()
 		}
 	}
 }
@@ -88,7 +88,7 @@ func GetBackwardLocations() error {
 	total := loadLocations(0, true)
 	loadLocations(total-offset, false)
 
-	userInput := utils.RequestUserInput()
+	userInput, _ := utils.RequestUserInput()
 	for {
 		switch userInput {
 		case "menu":
@@ -103,22 +103,22 @@ func GetBackwardLocations() error {
 				total += offset
 				fmt.Printf("\n")
 				fmt.Println("Cannot go back before first page")
-				userInput = utils.RequestUserInput()
+				userInput, _ = utils.RequestUserInput()
 				break
 			}
 
 			loadLocations(total, false)
-			userInput = utils.RequestUserInput()
+			userInput, _ = utils.RequestUserInput()
 
 		case "back":
 			total += offset
 			navigateForward(&total, offset)
-			userInput = utils.RequestUserInput()
+			userInput, _ = utils.RequestUserInput()
 		default:
 			fmt.Printf("\n")
 			fmt.Println("Unknown map mode command")
 			printMapMode()
-			userInput = utils.RequestUserInput()
+			userInput, _ = utils.RequestUserInput()
 		}
 	}
 }
