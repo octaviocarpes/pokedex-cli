@@ -2,6 +2,7 @@ package http_client
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 )
 
@@ -26,5 +27,9 @@ func ExecuteGet[T any](endpoint string) (T, error) {
 		return getResponse, decodeError
 	}
 
-	return getResponse, nil
+	if response.StatusCode >= 200 && response.StatusCode <= 299 {
+		return getResponse, nil
+	}
+
+	return getResponse, errors.New("request failed")
 }
