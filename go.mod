@@ -8,6 +8,8 @@ replace github.com/octaviocarpes/pokedex-cli/commands/map v0.0.0 => ./commands/m
 
 replace github.com/octaviocarpes/pokedex-cli/commands/explore v0.0.0 => ./commands/explore
 
+replace github.com/octaviocarpes/pokedex-cli/commands/catch v0.0.0 => ./commands/catch
+
 replace github.com/octaviocarpes/pokedex-cli/poke-api v0.0.0 => ./poke-api
 
 replace github.com/octaviocarpes/pokedex-cli/poke-api/cache v0.0.0 => ./poke-api/cache
@@ -28,5 +30,7 @@ require github.com/octaviocarpes/pokedex-cli/poke-api/cache v0.0.0
 require github.com/octaviocarpes/pokedex-cli/commands/map v0.0.0 // indirect
 
 require github.com/octaviocarpes/pokedex-cli/commands/explore v0.0.0 // indirect
+
+require github.com/octaviocarpes/pokedex-cli/commands/catch v0.0.0 // indirect
 
 require github.com/octaviocarpes/pokedex-cli/http-client v0.0.0 // indirect
