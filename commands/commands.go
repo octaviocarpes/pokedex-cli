@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	catch_command "github.com/octaviocarpes/pokedex-cli/commands/catch"
 	explore_command "github.com/octaviocarpes/pokedex-cli/commands/explore"
 	map_command "github.com/octaviocarpes/pokedex-cli/commands/map"
 )
@@ -29,6 +30,11 @@ Here is a list of all available cli Commands:
 		To use the explore command you need to pass a location as a parameter eg:
 			   
 		Pokedex CLI > explore mt-coronet-2f
+	
+	- catch: Attempt to catch a Pokemon
+		To use the catch command you need to pass a pokemon as a parameter eg:
+			   
+		Pokedex CLI > catch pikachu
 	`)
 
 	return nil
@@ -54,6 +60,11 @@ func exploreCallback(args []string) error {
 	return err
 }
 
+func catchCallback(args []string) error {
+	err := catch_command.Catch(args[0])
+	return err
+}
+
 func ListAllCommands() map[string]cliCommand {
 	AllCommands := map[string]cliCommand{
 		"help": {
@@ -75,6 +86,10 @@ func ListAllCommands() map[string]cliCommand {
 		"explore": {
 			name:     "explore",
 			Callback: exploreCallback,
+		},
+		"catch": {
+			name:     "catch",
+			Callback: catchCallback,
 		},
 	}
 
