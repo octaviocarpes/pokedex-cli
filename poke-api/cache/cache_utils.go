@@ -1,6 +1,7 @@
 package cache
 
 import (
+	"errors"
 	"log"
 
 	utils "github.com/octaviocarpes/pokedex-cli/utils"
@@ -20,7 +21,7 @@ func GetCachedData[T any](url string) (T, error) {
 		return parsedResponse, nil
 	}
 
-	return response, nil
+	return response, errors.New("empty cache")
 }
 
 func SaveDataInCache[T any](url string, payload T) bool {
