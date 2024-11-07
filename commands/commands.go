@@ -50,7 +50,7 @@ func mapbCallback(args []string) error {
 }
 
 func exploreCallback(args []string) error {
-	err := explore_command.ListEncounters()
+	err := explore_command.ListEncounters(args[0])
 	return err
 }
 
