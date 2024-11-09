@@ -6,6 +6,7 @@ import (
 	"time"
 
 	api "github.com/octaviocarpes/pokedex-cli/poke-api"
+	pokedex "github.com/octaviocarpes/pokedex-cli/pokedex"
 )
 
 func weightedThrow(difficulty int) bool {
@@ -23,7 +24,6 @@ func weightedThrow(difficulty int) bool {
 	// Seed the random number generator
 	rand.New(rand.NewSource(time.Now().UnixNano()))
 
-	// Perform the weighted coin flip
 	if rand.Float64() < probabilityOfThrow {
 		return false
 	} else {
@@ -44,7 +44,7 @@ func Catch(pokemon string) error {
 
 	if catchResult {
 		fmt.Printf("Gotcha! %v was caught!\n", pokemon)
-		// TODO: save in pokedex
+		pokedex.AddToPokedex(pokemon, response)
 	} else {
 		fmt.Printf("Oof! %v escaped the pokeball!\n", pokemon)
 	}
