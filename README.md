@@ -39,7 +39,7 @@ You should see output like `go version go1.xx.x`.
 ### Clone the Repository
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/octaviocarpes/pokedex-cli.git
 cd pokedex-cli
 ```
 
