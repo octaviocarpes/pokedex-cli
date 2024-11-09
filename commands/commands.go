@@ -6,7 +6,9 @@ import (
 
 	catch_command "github.com/octaviocarpes/pokedex-cli/commands/catch"
 	explore_command "github.com/octaviocarpes/pokedex-cli/commands/explore"
+	inspect_command "github.com/octaviocarpes/pokedex-cli/commands/inspect"
 	map_command "github.com/octaviocarpes/pokedex-cli/commands/map"
+	pokedex_command "github.com/octaviocarpes/pokedex-cli/commands/pokedex"
 )
 
 type cliCommand struct {
@@ -35,6 +37,8 @@ Here is a list of all available cli Commands:
 		To use the catch command you need to pass a pokemon as a parameter eg:
 			   
 		Pokedex CLI > catch pikachu
+	
+	- pokedex: Check your pokedex
 	`)
 
 	return nil
@@ -65,6 +69,16 @@ func catchCallback(args []string) error {
 	return err
 }
 
+func inspectCallback(args []string) error {
+	err := inspect_command.Inspect(args[0])
+	return err
+}
+
+func pokedexCallback(args []string) error {
+	pokedex_command.ConsultPokedex()
+	return nil
+}
+
 func ListAllCommands() map[string]cliCommand {
 	AllCommands := map[string]cliCommand{
 		"help": {
@@ -90,6 +104,14 @@ func ListAllCommands() map[string]cliCommand {
 		"catch": {
 			name:     "catch",
 			Callback: catchCallback,
+		},
+		"inspect": {
+			name:     "inspect",
+			Callback: inspectCallback,
+		},
+		"pokedex": {
+			name:     "pokedex",
+			Callback: pokedexCallback,
 		},
 	}
 
